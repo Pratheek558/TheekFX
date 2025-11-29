@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theek FX Studio</title>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-color: #f9f9f9;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --black: #000;
+            --white: #fff;
+            --accent-purple: #d69dfc;
+            --accent-purple-border: rgba(214, 157, 252, 0.2);
+            --dark-nav: #2a2a2a;
+            
+            --font-sans: 'Inter', sans-serif;
+            
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            
+            --container-width: 1200px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .navbar-container {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 100;
+        }
+
+        .navbar {
+            background-color: rgba(42, 42, 42, 0.9);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #d1d5db;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        
+        .mobile-menu {
+            position: absolute;
+            top: 4.5rem;
+            right: 0;
+            background: var(--white);
+            color: var(--black);
+            padding: 1.5rem;
+            width: 200px;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            border: 1px solid #eee;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .mobile-menu a {
+            font-weight: 500;
+        }
+        
+        .mobile-menu a:hover {
+            color: #2563eb;
+        }
+
+        
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 1rem;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(to right, #374151, #000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .btn-primary {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            font-size: 1.125rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            background-color: #1f2937;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: #9ca3af;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-text {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        
+        .float-icon {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .icon-pr {
+            width: 80px;
+            height: 80px;
+            top: 15%;
+            left: 10%;
+            transform: rotate(-12deg);
+            background: #00005b;
+            border: 2px solid var(--accent-purple-border);
+            color: var(--accent-purple);
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: serif;
+        }
+
+        .icon-ae {
+            width: 96px;
+            height: 96px;
+            bottom: 20%;
+            left: 5%;
+            transform: rotate(15deg);
+            background: #00005b;
+            border: 2px solid rgba(207, 155, 243, 0.2);
+            color: #cf9bf3;
+            font-size: 2.25rem;
+            font-weight: bold;
+            font-family: serif;
+        }
+
+        .icon-capcut {
+            width: 64px;
+            height: 64px;
+            top: 20%;
+            right: 10%;
+            transform: rotate(5deg);
+            background: var(--black);
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+        
+      
+        .capcut-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .capcut-shape-1 {
+            position: absolute; width: 60%; height: 60%; background: white; border-radius: 50%; transform: translateX(-4px);
+        }
+        .capcut-shape-2 {
+            position: absolute; width: 60%; height: 60%; background: black; border-radius: 50%; transform: translateX(4px); mix-blend-mode: multiply;
+        }
+        .capcut-line-1 { position: absolute; width: 120%; height: 20%; background: white; transform: rotate(45deg); }
+        .capcut-line-2 { position: absolute; width: 120%; height: 20%; background: white; transform: rotate(-45deg); }
+
+        .icon-davinci {
+            width: 80px;
+            height: 80px;
+            bottom: 30%;
+            right: 5%;
+            transform: rotate(-8deg);
+            background: var(--white);
+            border: 1px solid #e5e7eb;
+            opacity: 0.8;
+        }
+        .davinci-dots { display: flex; gap: 4px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-r { background: #ef4444; }
+        .dot-g { background: #22c55e; }
+        .dot-b { background: #3b82f6; }
+
+
+      
+        .quote-section {
+            padding: 8rem 1.5rem;
+            background: var(--white);
+            border-top: 1px solid #f3f4f6;
+            border-bottom: 1px solid #f3f4f6;
+            text-align: center;
+        }
+
+        .quote-text {
+            font-size: 1.875rem;
+            font-weight: 500;
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quote-author {
+            margin-top: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info {
+            text-align: left;
+        }
+
+        .author-name { font-size: 0.875rem; font-weight: 700; }
+        .author-role { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+
+    
+        .marquee-container {
+            padding: 4rem 0;
+            background: var(--bg-color);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-track {
+            display: inline-flex;
+            animation: marquee 20s linear infinite;
+        }
+
+        .marquee-item {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #e5e7eb; 
+            margin: 0 2rem;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+        }
+
+        .marquee-item span { color: var(--black); }
+
+
+    
+        .work-section {
+            padding: 5rem 1.5rem;
+            max-width: var(--container-width);
+            margin: 0 auto;
+        }
+
+        .work-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .work-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .work-intro {
+            padding: 3rem 0;
+        }
+
+        .work-intro h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .work-intro p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .link-underline {
+            font-size: 1.125rem;
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+        }
+
+        .work-right {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            padding-bottom: 6rem;
+        }
+
+        .project-card {
+            position: relative;
+        }
+
+        .project-image-container {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-card:hover .project-image-container {
+            transform: scale(1.02);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        
+        .project-card:hover .project-overlay { background: transparent; }
+
+     
+        .bg-purple { background-color: #f3e8ff; }
+        .bg-blue { background-color: #dbeafe; }
+        .bg-green { background-color: #dcfce7; }
+        .bg-orange { background-color: #ffedd5; }
+
+        .project-category {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid #d1d5db;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title { font-size: 1.875rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .project-desc { color: var(--text-muted); font-size: 1.125rem; }
+
+
+     
+        .footer {
+            background-color: #1a1a1a;
+            color: var(--white);
+            padding: 6rem 1.5rem 2rem;
+            border-top-left-radius: 3rem;
+            border-top-right-radius: 3rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .brand-col h2 {
+            font-size: 3.75rem;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            margin-bottom: 2rem;
+            color: #f9f9f9;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .footer-links-col h3, .footer-contact-col h3 {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-size: 1.125rem;
+        }
+        
+        .footer-links a:hover { color: #9ca3af; }
+
+        .contact-email {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-color: #4b5563;
+            text-underline-offset: 8px;
+        }
+        
+        .contact-email:hover { text-decoration-color: var(--white); }
+
+        .footer-bottom {
+            max-width: var(--container-width);
+            margin: 6rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #6b7280;
+            font-size: 0.875rem;
+            gap: 1rem;
+        }
+
+        .footer-bottom-links { display: flex; gap: 1.5rem; }
+
+
+   
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(var(--rotate-deg, 0deg)); }
+            50% { transform: translateY(-20px) rotate(calc(var(--rotate-deg, 0deg) + 2deg)); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8,0,1,1); }
+            50% { transform: none; animation-timing-function: cubic-bezier(0,0,0.2,1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .menu-btn { display: none; }
+            .mobile-menu { display: none !important; }
+
+            .hero h1 { font-size: 5rem; }
+            .hero p { font-size: 1.5rem; }
+            
+            .icon-pr { left: 20%; }
+            .icon-ae { left: 15%; }
+            .icon-capcut { right: 20%; }
+            .icon-davinci { right: 15%; }
+
+            .quote-text { font-size: 3rem; }
+            
+            .marquee-item { font-size: 3.75rem; }
+
+            .project-image-container { aspect-ratio: 16/9; }
+            
+            .brand-col h2 { font-size: 10rem; }
+            
+            .footer-content { flex-direction: row; justify-content: space-between; }
+            .brand-col { width: 50%; }
+            .footer-links-col { width: 25%; }
+            .footer-contact-col { width: 25%; }
+            
+            .footer-bottom { flex-direction: row; }
+        }
+
+        @media (min-width: 1024px) {
+            .work-layout { flex-direction: row; gap: 6rem; }
+            .work-left { width: 33.333%; height: 100vh; position: sticky; top: 0; align-items: center; }
+            .work-right { width: 66.666%; padding-bottom: 6rem; }
+            .work-intro h2 { font-size: 3.75rem; }
+        }
+
+       
+        .icon-pr { --rotate-deg: -12deg; }
+        .icon-ae { --rotate-deg: 15deg; }
+        .icon-capcut { --rotate-deg: 5deg; }
+        .icon-davinci { --rotate-deg: -8deg; }
+
+    </style>
+</head>
+<body>
+
+  
+    <div class="navbar-container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#about">About</a>
+                <a href="#works">Works</a>
+                <a href="#blog">Blog</a>
+            </div>
+            
+         
+            <button class="menu-btn" id="menu-btn">
+                <i data-lucide="menu" width="20" height="20" id="menu-icon"></i>
+            </button>
+        </nav>
+
+  
+        <div id="mobile-menu" class="mobile-menu hidden">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#works">Works</a>
+            <a href="#blog">Blog</a>
+        </div>
+    </div>
+
+ 
+    <section class="hero">
+        
+    
+        <div class="float-icon icon-pr">Pr</div>
+        <div class="float-icon icon-ae">Ae</div>
+        
+        <div class="float-icon icon-capcut">
+            <div class="capcut-inner">
+                <div class="capcut-shape-1"></div>
+                <div class="capcut-shape-2"></div>
+                <div class="capcut-line-1"></div>
+                <div class="capcut-line-2"></div>
+            </div>
+        </div>
+
+        <div class="float-icon icon-davinci">
+            <div class="davinci-dots">
+                <div class="dot dot-r"></div>
+                <div class="dot dot-g"></div>
+                <div class="dot dot-b"></div>
+            </div>
+        </div>
+
+      
+        <div style="z-index: 10; position: relative;">
+            <h1>
+                Cut. Create. <br />
+                <span>Captivate.</span>
+            </h1>
+            <p>A design, ready to serve — always.</p>
+            <button class="btn-primary">
+                Learn more
+                <i data-lucide="arrow-right" width="20" height="20"></i>
+            </button>
+        </div>
+
+        <div class="scroll-indicator">
+            <span class="scroll-text">Keep Scrolling</span>
+            <i data-lucide="chevron-down" width="20" height="20"></i>
+        </div>
+    </section>
+
+
+    <section id="about" class="quote-section">
+        <blockquote>
+            <p class="quote-text">
+                “The editing was crisp, creative, and perfectly matched the vibe I wanted. Really impressed with the quality!”
+            </p>
+        </blockquote>
+        <div class="quote-author">
+            <div class="author-avatar">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="User">
+            </div>
+            <div class="author-info">
+                <p class="author-name">Alex Morgan</p>
+                <p class="author-role">Creative Director</p>
+            </div>
+        </div>
+    </section>
+
+ 
+    <div class="marquee-container">
+        <div class="marquee-track">
+          
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+          
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+        </div>
+    </div>
+
+   
+    <section id="works" class="work-section">
+        <div class="work-layout">
+         
+            <div class="work-left">
+                <div class="work-intro">
+                    <h2>Professional video editing that transforms raw footage into winning stories.</h2>
+                    <p>We handle the pixels so you can handle the vision. From rough cuts to final delivery, we ensure every frame counts.</p>
+                    <a href="#" class="link-underline">View All Projects</a>
+                </div>
+            </div>
+
+          
+            <div class="work-right">
+                
+             
+                <div class="project-card">
+                    <div class="project-image-container bg-purple">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?q=80&w=1000&auto=format&fit=crop" alt="Colour Grading" class="project-image" />
+                        <div class="project-overlay"></div>
+                    </div>
+                    <div>
+                        <span class="project-category">Post Production</span>
+                        <h3 class="project-title">Colour Grading</h3>
+                        <p class="project-desc">Color and tech into dynamic visual experiences.</p>
+                    </div>
+                </div>
+
+              
+                <div class="project-card">
+                    <div class="project-image-container bg-blue">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop" alt="Cutting & SFX" class="project-image" />
+                        <div class="project-overlay"></div>
+                    </div>
+                    <div>
+                        <span class="project-category">Editing</span>
+                        <h3 class="project-title">Cutting & SFX</h3>
+                        <p class="project-desc">Cutting-edge pacing designed to enhance every story beat.</p>
+                    </div>
+                </div>
+
+         
+                <div class="project-card">
+                    <div class="project-image-container bg-green">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop" alt="Motion Graphics" class="project-image" />
+                        <div class="project-overlay"></div>
+                    </div>
+                    <div>
+                        <span class="project-category">Animation</span>
+                        <h3 class="project-title">Motion Graphics</h3>
+                        <p class="project-desc">Bringing static ideas to life through fluid motion.</p>
+                    </div>
+                </div>
+
+               
+                <div class="project-card">
+                    <div class="project-image-container bg-orange">
+                        <img src="https://images.unsplash.com/photo-1590845947387-e6f9fa16c69d?q=80&w=1000&auto=format&fit=crop" alt="Sound Design" class="project-image" />
+                        <div class="project-overlay"></div>
+                    </div>
+                    <div>
+                        <span class="project-category">Audio</span>
+                        <h3 class="project-title">Sound Design</h3>
+                        <p class="project-desc">Immersive soundscapes that define the atmosphere.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="brand-col">
+                <h2>Theek FX</h2>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i data-lucide="instagram" width="20"></i></a>
+                    <a href="#" class="social-icon"><i data-lucide="twitter" width="20"></i></a>
+                    <a href="#" class="social-icon"><i data-lucide="linkedin" width="20"></i></a>
+                    <a href="#" class="social-icon"><i data-lucide="mail" width="20"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links-col">
+                <h3>Sitemap</h3>
+                <div class="footer-links">
+                    <a href="#">Work Page</a>
+                    <a href="#">About Studio</a>
+                    <a href="#">Our Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+
+            <div class="footer-contact-col">
+                 <h3>Let's talk</h3>
+                 <p style="margin-bottom: 1rem; color: #d1d5db; font-size: 1.125rem;">Have a project in mind?</p>
+                 <a href="mailto:hello@theekfx.com" class="contact-email">
+                   hello@theekfx.com
+                 </a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 Theek FX Studio. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+   
+    <script>
+  
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        });
+
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+    </script>
+</body>
+</html>
