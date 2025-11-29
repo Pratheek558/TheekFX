@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theek FX Studio</title>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Link CSS File -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="navbar-container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#about">About</a>
+                <a href="#works">Works</a>
+                <a href="#blog">Blog</a>
+            </div>
+
+            <button class="menu-btn" id="menu-btn">
+                <i data-lucide="menu" width="20" height="20" id="menu-icon"></i>
+            </button>
+        </nav>
+
+        <div id="mobile-menu" class="mobile-menu hidden">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#works">Works</a>
+            <a href="#blog">Blog</a>
+        </div>
+    </div>
+
+    <section class="hero">
+
+        <div class="float-icon icon-pr">Pr</div>
+        <div class="float-icon icon-ae">Ae</div>
+
+        <div class="float-icon icon-capcut">
+            <div class="capcut-inner">
+                <div class="capcut-shape-1"></div>
+                <div class="capcut-shape-2"></div>
+                <div class="capcut-line-1"></div>
+                <div class="capcut-line-2"></div>
+            </div>
+        </div>
+
+        <div class="float-icon icon-davinci">
+            <div class="davinci-dots">
+                <div class="dot dot-r"></div>
+                <div class="dot dot-g"></div>
+                <div class="dot dot-b"></div>
+            </div>
+        </div>
+
+        <div style="z-index: 10; position: relative;">
+            <h1>
+                Cut. Create. <br />
+                <span>Captivate.</span>
+            </h1>
+            <p>A design, ready to serve — always.</p>
+            <button class="btn-primary">
+                Learn more
+                <i data-lucide="arrow-right" width="20" height="20"></i>
+            </button>
+        </div>
+
+        <div class="scroll-indicator">
+            <span class="scroll-text">Keep Scrolling</span>
+            <i data-lucide="chevron-down" width="20" height="20"></i>
+        </div>
+    </section>
+
+    <section id="about" class="quote-section">
+        <blockquote>
+            <p class="quote-text">
+                “The editing was crisp, creative, and perfectly matched the vibe I wanted. Really impressed with the quality!”
+            </p>
+        </blockquote>
+        <div class="quote-author">
+            <div class="author-avatar">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="User">
+            </div>
+            <div class="author-info">
+                <p class="author-name">Alex Morgan</p>
+                <p class="author-role">Creative Director</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-track">
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+            <div class="marquee-item">Not just a simple studio. <span>Work</span></div>
+        </div>
+    </div>
+
+    <section id="works" class="work-section">
+        <div class="work-layout">
+
+            <div class="work-left">
+                <div class="work-intro">
+                    <h2>Professional video editing that transforms raw footage into winning stories.</h2>
+                    <p>We handle the pixels so you can handle the vision. From rough cuts to final delivery, we ensure every frame counts.</p>
+                    <a href="#" class="link-underline">View All Projects</a>
+                </div>
+            </div>
+
+            <div class="work-right">
+
+                <div class="project-card">
+                    <div class="project-image-container bg-purple">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?q=80&w=1000&auto=format&fit=crop" alt="Colour Grading" class="project-image" />
+                        <div class="project-overlay"></div>
+                    </div>
+                    <div>
+                        <span class="project-category">Post Production</span>
+                        <h3 class="project-title">Colour Grading</h3>
+                        <p class="project-desc">Color and tech into dynamic visual experiences.</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image-container bg-blue">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop" alt="Cutting & SFX" class="project-image" />
+                        <div class="project-overlay"></div>
+                    </div>
+                    <div>
+                        <span class="project-category">Editing</span>
+                        <h3 class="project-title">Cutting & SFX</h3>
+                        <p class="project-desc">Cutting-edge pacing designed to enhance every story beat.</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image-container bg-green">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop" alt="Motion Graphics" class="project-image" />
+                        <div class="project-overlay"></div>
+                    </div>
+                    <div>
+                        <span class="project-category">Animation</span>
+                        <h3 class="project-title">Motion Graphics</h3>
+                        <p class="project-desc">Bringing static ideas to life through fluid motion.</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image-container bg-orange">
+                        <img src="https://images.unsplash.com/photo-1590845947387-e6f9fa16c69d?q=80&w=1000&auto=format&fit=crop" alt="Sound Design" class="project-image" />
+                        <div class="project-overlay"></div>
+                    </div>
+                    <div>
+                        <span class="project-category">Audio</span>
+                        <h3 class="project-title">Sound Design</h3>
+                        <p class="project-desc">Immersive soundscapes that define the atmosphere.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="brand-col">
+                <h2>Theek FX</h2>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i data-lucide="instagram" width="20"></i></a>
+                    <a href="#" class="social-icon"><i data-lucide="twitter" width="20"></i></a>
+                    <a href="#" class="social-icon"><i data-lucide="linkedin" width="20"></i></a>
+                    <a href="#" class="social-icon"><i data-lucide="mail" width="20"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links-col">
+                <h3>Sitemap</h3>
+                <div class="footer-links">
+                    <a href="#">Work Page</a>
+                    <a href="#">About Studio</a>
+                    <a href="#">Our Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+
+            <div class="footer-contact-col">
+                <h3>Let's talk</h3>
+                <p style="margin-bottom: 1rem; color: #d1d5db; font-size: 1.125rem;">Have a project in mind?</p>
+                <a href="mailto:hello@theekfx.com" class="contact-email">
+                   hello@theekfx.com
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2024 Theek FX Studio. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS File -->
+    <script src="script.js"></script>
+</body>
+</html>
